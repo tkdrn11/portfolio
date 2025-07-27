@@ -139,10 +139,21 @@ function initializeCharts() {
                     borderWidth: 1,
                     textStyle: {
                         color: '#fff'
+                    },
+                    formatter: function(params) {
+                        let result = params[0].name + '<br/>';
+                        params.forEach(function(item) {
+                            if (item.seriesName === '불량품 사용비율') {
+                                result += item.marker + item.seriesName + ': ' + item.value + '%<br/>';
+                            } else {
+                                result += item.marker + item.seriesName + ': ' + item.value + '건<br/>';
+                            }
+                        });
+                        return result;
                     }
                 },
                 legend: {
-                    data: ['절감액', '개선 건수', '누적 효율'],
+                    data: ['양품', '불량', '불량품 사용비율'],
                     textStyle: {
                         color: '#94a3b8'
                     },
@@ -157,7 +168,7 @@ function initializeCharts() {
                 xAxis: [
                     {
                         type: 'category',
-                        data: ['1분기', '2분기', '3분기', '4분기'],
+                        data: ['1월', '2월', '3월', '4월', '5월', '6월', '7월'],
                         axisPointer: {
                             type: 'shadow'
                         },
@@ -174,7 +185,7 @@ function initializeCharts() {
                 yAxis: [
                     {
                         type: 'value',
-                        name: '금액 (만원)',
+                        name: '수량 (건)',
                         axisLabel: {
                             formatter: '{value}',
                             color: '#94a3b8'
@@ -192,7 +203,9 @@ function initializeCharts() {
                     },
                     {
                         type: 'value',
-                        name: '효율 (%)',
+                        name: '비율 (%)',
+                        min: 0,
+                        max: 100,
                         axisLabel: {
                             formatter: '{value}%',
                             color: '#94a3b8'
@@ -206,9 +219,9 @@ function initializeCharts() {
                 ],
                 series: [
                     {
-                        name: '절감액',
+                        name: '양품',
                         type: 'bar',
-                        data: [28, 35, 42, 50],
+                        data: [990, 840, 570, 131,676, 1124, 849],
                         itemStyle: {
                             color: {
                                 type: 'linear',
@@ -217,17 +230,21 @@ function initializeCharts() {
                                 x2: 0,
                                 y2: 1,
                                 colorStops: [
-                                    { offset: 0, color: '#06b6d4' },
-                                    { offset: 1, color: '#0891b2' }
+                                    { offset: 0, color: '#10b981' },
+                                    { offset: 0.5, color: '#059669' },
+                                    { offset: 1, color: '#047857' }
                                 ]
                             },
-                            borderRadius: [8, 8, 0, 0]
+                            borderRadius: [8, 8, 0, 0],
+                            shadowBlur: 8,
+                            shadowColor: 'rgba(16, 185, 129, 0.3)',
+                            shadowOffsetY: 2
                         }
                     },
                     {
-                        name: '개선 건수',
+                        name: '불량',
                         type: 'bar',
-                        data: [12, 18, 25, 30],
+                        data: [0, 0, 360, 523, 406, 857, 795],
                         itemStyle: {
                             color: {
                                 type: 'linear',
@@ -236,29 +253,33 @@ function initializeCharts() {
                                 x2: 0,
                                 y2: 1,
                                 colorStops: [
-                                    { offset: 0, color: '#8b5cf6' },
-                                    { offset: 1, color: '#7c3aed' }
+                                    { offset: 0, color: '#f87171' },
+                                    { offset: 0.5, color: '#ef4444' },
+                                    { offset: 1, color: '#dc2626' }
                                 ]
                             },
-                            borderRadius: [8, 8, 0, 0]
+                            borderRadius: [8, 8, 0, 0],
+                            shadowBlur: 8,
+                            shadowColor: 'rgba(239, 68, 68, 0.3)',
+                            shadowOffsetY: 2
                         }
                     },
                     {
-                        name: '누적 효율',
+                        name: '불량품 사용비율',
                         type: 'line',
                         yAxisIndex: 1,
-                        data: [5.6, 10.5, 15.8, 20.0],
+                        data: [0, 0, 38.7, 80.0, 37.5, 43.3, 46.1],
                         smooth: true,
                         symbol: 'circle',
-                        symbolSize: 10,
+                        symbolSize: 8,
                         lineStyle: {
                             width: 3,
-                            color: '#ec4899',
+                            color: '#f59e0b',
                             shadowBlur: 10,
-                            shadowColor: '#ec4899'
+                            shadowColor: '#f59e0b'
                         },
                         itemStyle: {
-                            color: '#ec4899',
+                            color: '#f59e0b',
                             borderColor: '#fff',
                             borderWidth: 2
                         }

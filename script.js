@@ -420,10 +420,21 @@ function initCharts() {
                 borderWidth: 1,
                 textStyle: {
                     color: '#fff'
+                },
+                formatter: function(params) {
+                    let result = params[0].name + '<br/>';
+                    params.forEach(function(item) {
+                        if (item.seriesName === '불량품 사용비율') {
+                            result += item.marker + item.seriesName + ': ' + item.value + '%<br/>';
+                        } else {
+                            result += item.marker + item.seriesName + ': ' + item.value + '건<br/>';
+                        }
+                    });
+                    return result;
                 }
             },
             legend: {
-                data: ['절감액', '개선 건수', '누적 효율'],
+                data: ['양품', '불량', '불량품 사용비율'],
                 textStyle: {
                     color: '#94a3b8'
                 },
@@ -438,7 +449,7 @@ function initCharts() {
             xAxis: [
                 {
                     type: 'category',
-                    data: ['1분기', '2분기', '3분기', '4분기'],
+                    data: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
                     axisPointer: {
                         type: 'shadow'
                     },
@@ -455,7 +466,7 @@ function initCharts() {
             yAxis: [
                 {
                     type: 'value',
-                    name: '금액 (만원)',
+                    name: '수량 (건)',
                     axisLabel: {
                         formatter: '{value}',
                         color: '#94a3b8'
@@ -473,7 +484,9 @@ function initCharts() {
                 },
                 {
                     type: 'value',
-                    name: '효율 (%)',
+                    name: '비율 (%)',
+                    min: 0,
+                    max: 15,
                     axisLabel: {
                         formatter: '{value}%',
                         color: '#94a3b8'
@@ -487,45 +500,45 @@ function initCharts() {
             ],
             series: [
                 {
-                    name: '절감액',
+                    name: '양품',
                     type: 'bar',
-                    data: [28, 35, 42, 50],
+                    data: [1850, 1920, 1980, 1850, 1900, 1950, 1980, 1920, 1890, 1940, 1960, 1980],
                     itemStyle: {
                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                            { offset: 0, color: '#06b6d4' },
-                            { offset: 1, color: '#0891b2' }
+                            { offset: 0, color: '#22c55e' },
+                            { offset: 1, color: '#16a34a' }
                         ]),
-                        borderRadius: [8, 8, 0, 0]
+                        borderRadius: [4, 4, 0, 0]
                     }
                 },
                 {
-                    name: '개선 건수',
+                    name: '불량',
                     type: 'bar',
-                    data: [12, 18, 25, 30],
+                    data: [150, 80, 20, 150, 100, 50, 20, 80, 110, 60, 40, 20],
                     itemStyle: {
                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                            { offset: 0, color: '#8b5cf6' },
-                            { offset: 1, color: '#7c3aed' }
+                            { offset: 0, color: '#ef4444' },
+                            { offset: 1, color: '#dc2626' }
                         ]),
-                        borderRadius: [8, 8, 0, 0]
+                        borderRadius: [4, 4, 0, 0]
                     }
                 },
                 {
-                    name: '누적 효율',
+                    name: '불량품 사용비율',
                     type: 'line',
                     yAxisIndex: 1,
-                    data: [5.6, 10.5, 15.8, 20.0],
+                    data: [7.5, 4.0, 1.0, 7.5, 5.0, 2.5, 1.0, 4.0, 5.5, 3.0, 2.0, 1.0],
                     smooth: true,
                     symbol: 'circle',
-                    symbolSize: 10,
+                    symbolSize: 8,
                     lineStyle: {
                         width: 3,
-                        color: '#ec4899',
+                        color: '#f59e0b',
                         shadowBlur: 10,
-                        shadowColor: '#ec4899'
+                        shadowColor: '#f59e0b'
                     },
                     itemStyle: {
-                        color: '#ec4899',
+                        color: '#f59e0b',
                         borderColor: '#fff',
                         borderWidth: 2
                     }
@@ -533,7 +546,9 @@ function initCharts() {
             ]
         };
         
-        comboChart.setOption(comboOption);
+        // Clear previous chart and set new option
+        comboChart.clear();
+        comboChart.setOption(comboOption, true);
         window.addEventListener('resize', () => comboChart.resize());
     }
 
@@ -653,6 +668,11 @@ if (document.readyState === 'loading') {
 
 // Also call on window load as a fallback
 window.addEventListener('load', initCharts);
+
+// Force refresh charts after 1 second to ensure they load properly
+setTimeout(() => {
+    initCharts();
+}, 1000);
 
 // Mouse parallax effect
 document.addEventListener('mousemove', (e) => {
