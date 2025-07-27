@@ -17,24 +17,25 @@ function initParallaxHero() {
         // Progressive hero content fade based on scroll position
         heroSection.classList.remove('light-fade', 'medium-fade', 'scrolled', 'hidden');
         
-        if (scrollTop > windowHeight * 0.2) {
+        // More gradual fade transitions
+        if (scrollTop > windowHeight * 0.15) {
             heroSection.classList.add('light-fade');
         }
-        if (scrollTop > windowHeight * 0.5) {
+        if (scrollTop > windowHeight * 0.4) {
             heroSection.classList.add('medium-fade');
         }
-        if (scrollTop > windowHeight * 0.8) {
+        if (scrollTop > windowHeight * 0.7) {
             heroSection.classList.add('scrolled');
         }
         // Hide hero completely when About section is fully visible
-        if (scrollTop > windowHeight * 1.1) {
+        if (scrollTop > windowHeight * 1.2) {
             heroSection.classList.add('hidden');
         }
         
-        // About section slide up trigger
+        // About section slide up trigger - more gradual
         const aboutTop = windowHeight; // Since about starts at 100vh
-        const aboutTrigger = aboutTop - windowHeight * 0.3;
-        const aboutProfileTrigger = aboutTop - windowHeight * 0.1;
+        const aboutTrigger = aboutTop - windowHeight * 0.5; // Start earlier
+        const aboutProfileTrigger = aboutTop - windowHeight * 0.2;
         
         if (scrollTop > aboutTrigger) {
             aboutTitle.classList.add('visible');
